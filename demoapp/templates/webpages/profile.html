@@ -1,0 +1,25 @@
+<!-- filepath: /D:/django_progs/demo/demoapp/templates/webpages/profile.html -->
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h2 class="mb-0">Profile</h2>
+                </div>
+                <div class="card-body text-center">
+                    {% if profile.photo %}
+                    <img src="{{ profile.photo.url }}" alt="Profile Photo" class="rounded-circle mb-3" style="width: 150px; height: 150px; object-fit: cover;">
+                    {% else %}
+                    <img src="https://via.placeholder.com/150" alt="Profile Photo" class="rounded-circle mb-3" style="width: 150px; height: 150px; object-fit: cover;">
+                    {% endif %}
+                    <h4 class="card-title">{{ request.user.username }}</h4>
+                    <p class="card-text">{{ request.user.email }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,36 @@
+<!-- filepath: /D:/django_progs/demo/demoapp/templates/webpages/tweet_list.html -->
+{% extends "layout.html" %}
+
+{% block title %}
+Twitter
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+  <a href="{% url 'tweet_create' %}" class="btn btn-primary mb-4">Create Tweet</a>
+  <div class="row">
+    {% for tweet in tweets %}
+    <div class="col-md-4 mb-4 d-flex">
+      <div class="card" style="width: 18rem;">
+        {% if tweet.photo %}
+        <img src="{{ tweet.photo.url }}" class="card-img-top" style="height: 150px; object-fit: cover;" alt="...">
+        {% endif %}
+        <div class="card-body">
+          <h5 class="card-title">{{ tweet.user.username }}</h5>
+          <p class="card-text">{{ tweet.text }}</p>
+          {% if tweet.user == user %}
+          <a href="{% url 'tweet_edit' tweet.id %}" class="btn btn-primary btn-sm mt-2">Edit</a>
+          <a href="{% url 'tweet_delete' tweet.id %}" class="btn btn-danger btn-sm mt-2">Delete</a>
+          {% endif %}
+          <a href="{% url 'tweet_details' tweet.id %}">
+            <button class="btn btn-primary btn-sm mt-2">
+               Details
+            </button>
+          </a>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

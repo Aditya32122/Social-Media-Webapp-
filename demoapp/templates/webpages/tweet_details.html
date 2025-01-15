@@ -1,0 +1,52 @@
+{% extends "layout.html" %}
+
+{% block title %}
+tweet detail page
+{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-center align-items-center" style="min-height: 100vh;">
+    <div class="card shadow-sm p-4" style="max-width: 800px; width: 100%;">
+        <!-- Tweet Card -->
+        <div class="card mb-4">
+            <img src="{{ tweet.photo.url }}" class="card-img-top" style="height: 250px; object-fit: cover;" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">{{ tweet.user.username }}</h5>
+                <p class="card-text">{{ tweet.text }}</p>
+                <a href="{% url 'tweet_list' %}" class="btn btn-outline-primary">Back to Tweets</a>
+            </div>
+        </div>
+
+        <!-- Comments Section -->
+        <div class="mt-4">
+            <h4 class="mb-3">Comments</h4>
+
+            <!-- Add Comment Form -->
+            <form method="POST" action="{% url 'add_comment' tweet.id %}">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <textarea class="form-control" name="comment" rows="4" placeholder="Add a comment..." required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit Comment</button>
+            </form>
+
+            <!-- Display Comments -->
+            <div class="mt-4">
+                <ul class="list-group">
+                    {% for comment in comments %}
+                    <li class="list-group-item border rounded shadow-sm mb-2">
+                        <div class="d-flex justify-content-between">
+                            <strong>{{ comment.user.username }}</strong>
+                            <span class="text-muted">{{ comment.created_at|date:"F j, Y, g:i a" }}</span>
+                        </div>
+                        <p class="mt-2">{{ comment.text }}</p>
+                    </li>
+                    {% empty %}
+                    <li class="list-group-item text-muted text-center">No comments yet. Be the first to comment!</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
